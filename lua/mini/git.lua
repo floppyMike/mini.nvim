@@ -382,6 +382,8 @@ MiniGit.show_diff_source = function(opts)
     if is_worktree then
       args, lines = { 'edit', vim.fn.fnameescape(path) }, vim.fn.readfile(path)
     else
+      local rangepos = commit:find('..', 1, true)
+      commit = rangepos and commit:sub(1, rangepos - 1) or commit
       args = { 'show', commit .. ':' .. path }
       lines = H.git_cli_output(args, cwd)
     end
